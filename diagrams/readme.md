@@ -1,6 +1,6 @@
 # Table of Contents
 - [Secure workflow using Self Sovereign Identity](#secure-workflow-using-self-sovereign-identity)
-- [Self Sovereign Client Application](#self-sovereign-client-application)
+- [ML Model Discovery, Subscription and Consumption Platform](#ml-model-discovery-subscription-and-consumption-platform)
 - [Service Market Place](#service-market-place)
 - [User Subscription to Published Applications](#user-subscription-to-published-applications)
     - [Subscribed Application Resolution](#subscribed-application-resolution)
@@ -60,3 +60,11 @@ What if the identity can be used to create a secure channel like SSH but not lik
 Let's take an example patient has booked an appointment with the Doctor, What if a system faciliates a walkie talkie between patient and doctor over internet and the transactions are saved encrypted to any storage(can be public) but the key to decrypt resides with the stakeholders.
 
 - How to protect from Data Leakage
+
+
+## ML Model Discovery, Subscription and Consumption Platform
+
+
+
+
+
