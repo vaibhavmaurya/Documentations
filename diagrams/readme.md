@@ -38,7 +38,7 @@ How to recover the data if lost and make the data extremely resilient.
 
 
 
-### What if 
+### What if, 
 
 **User**
 
@@ -64,11 +64,35 @@ Let's take an example patient has booked an appointment with the Doctor, What if
 
 ## ML Model Discovery, Subscription and Consumption Platform
 
+Detect contextual information from the documents/unstructured data. Usually model is trained with respect to the use cases, for example some use case asks to detect the amount payment only, some may asks to detect the date of payment etc. Different teams in different locations may work on different use cases and create their model. It would be good to reuse the existing trained model to increase productivity and remove repetition.
+
+### What if, 
+
+- Model is published/avaialble at common place and categorised based on the usage.
+- Interested parties can subscibe the categories which indirectly subscribe the published models.
+- A platform which combines the subscribed models and provides consolidated results.
+
 
 ## Contract Assistant
 
+When there is an agreeement between buyer and the vendor, there comes the need of drafting a contract, a written agreement. The contract document is an unstructured data. Later, there would be huge effort to extract information from these large pile of documents. There would be massive efforts to categorize the contracts for various use cases.
+
+### What if,
+
+- There is a digital assistant for drafting the contract documents.
+- While realizing the contract, if a system can assist in assigning the various categories of the agreement.
+- System can detect non compliance issue.
+
+
+
+
+
 
 ## Living Machine Learning Model, Feedback System
+
+It is possible that use cases related to AI/ML even after very rigourous requirement analysis can change or enhancements are needed. There would be a model already trained as per the use case and due to changes/enhancements new model needs to be introduced or existing model has to be changed/enhanced.
+
++
 
 
 
