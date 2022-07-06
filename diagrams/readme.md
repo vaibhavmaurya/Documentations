@@ -1,9 +1,9 @@
 # Table of Contents
 - [Secure workflow using Self Sovereign Identity](#secure-workflow-using-self-sovereign-identity)
 - [ML Model Discovery, Subscription and Consumption Platform](#ml-model-discovery-subscription-and-consumption-platform)
-- [Service Market Place](#service-market-place)
-- [User Subscription to Published Applications](#user-subscription-to-published-applications)
-    - [Subscribed Application Resolution](#subscribed-application-resolution)
+- [Contract Assistant](#contract-assistant)
+- [Living Machine Learning Model, Feedback System](#living-machine-learning-model-feedback-system)
+
 
 
 ## Secure workflow using Self Sovereign Identity
@@ -63,6 +63,12 @@ Let's take an example patient has booked an appointment with the Doctor, What if
 
 
 ## ML Model Discovery, Subscription and Consumption Platform
+
+
+## Contract Assistant
+
+
+## Living Machine Learning Model, Feedback System
 
 
 
