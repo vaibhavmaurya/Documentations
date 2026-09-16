@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observability Data Management Architecture</title>
+<style>
+  body {font-family: Inter, Arial, sans-serif; margin:0; background:#f6f8fb; color:#172033;}
+  .wrap {max-width:1500px; margin:0 auto; padding:28px;}
+  h1 {margin:0 0 8px; font-size:30px;}
+  .sub {color:#5f6b7a; margin-bottom:24px;}
+  .grid {display:grid; grid-template-columns: 1fr; gap:18px;}
+  .layer {background:white; border:1px solid #dfe5ec; border-radius:14px; padding:16px; box-shadow:0 2px 8px rgba(20,35,60,.05);}
+  .layer h2 {font-size:18px; margin:0 0 12px;}
+  .cards {display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px;}
+  .card {border:1px solid #e3e8ee; border-radius:10px; padding:12px; background:#fbfcfe;}
+  .card b {display:block; margin-bottom:5px;}
+  .arrow {text-align:center; font-size:25px; color:#667085; margin:-8px 0;}
+  .split {display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .tenant {border-left:6px solid #6b7280;}
+  .bronze {border-left:6px solid #a16207;}
+  .silver {border-left:6px solid #64748b;}
+  .gold {border-left:6px solid #ca8a04;}
+  .transport {border-left:6px solid #2563eb;}
+  .collect {border-left:6px solid #7c3aed;}
+  .source {border-left:6px solid #059669;}
+  .hot {border-left:6px solid #dc2626;}
+  code {font-family:Consolas,monospace; font-size:12px;}
+  .footer {margin-top:24px; font-size:13px; color:#667085;}
+  @media (max-width:850px){.split{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Federated Observability Data Management Architecture</h1>
+  <div class="sub">Level 1 Monitoring + Level 2 Correlation | Multi-tenant | Databricks + AWS + Airflow + OpenTelemetry + OpenLineage</div>
+
+  <div class="grid">
+    <section class="layer source">
+      <h2>1. Observability Producers</h2>
+      <div class="cards">
+        <div class="card"><b>Applications & Services</b>Logs, metrics, traces, APIs</div>
+        <div class="card"><b>Databricks</b>Jobs, queries, compute, billing, lineage, audit</div>
+        <div class="card"><b>AWS Data Platform</b>S3, Glue, Redshift, Kinesis/MSK, Lambda, EKS, network</div>
+        <div class="card"><b>Airflow / Pipelines</b>DAGs, tasks, scheduler, OpenLineage</div>
+        <div class="card"><b>Data Quality</b>Freshness, completeness, volume, schema, assertions</div>
+        <div class="card"><b>MLOps</b>Training, deployment, serving operations</div>
+        <div class="card"><b>FinOps</b>AWS CUR, Databricks billing, tags, allocation</div>
+      </div>
+    </section>
+
+    <div class="arrow">↓</div>
+
+    <section class="layer collect">
+      <h2>2. Collection & Adapter Layer</h2>
+      <div class="cards">
+        <div class="card"><b>OpenTelemetry</b>SDK + Collector<br><code>receivers → processors → exporters</code></div>
+        <div class="card"><b>OpenLineage</b>Job / Run / Dataset events</div>
+        <div class="card"><b>AWS Adapters</b>CloudWatch, EventBridge, CloudTrail, APIs</div>
+        <div class="card"><b>Databricks Adapters</b>System tables, APIs, event sources</div>
+        <div class="card"><b>Custom Collectors</b>REST, JDBC, SDK, files</div>
+      </div>
+    </section>
+
+    <div class="arrow">↓</div>
+
+    <section class="layer transport">
+      <h2>3. Event / Streaming Backbone</h2>
+      <div class="cards">
+        <div class="card"><b>Amazon Kinesis / MSK</b>Primary telemetry backbone</div>
+        <div class="card"><b>EventBridge</b>Event routing</div>
+        <div class="card"><b>SQS / DLQ</b>Buffering, retry, back-pressure</div>
+        <div class="card"><b>Logical Streams</b>metrics · logs · traces · lineage · pipelines · platform · DQ · MLOps · FinOps</div>
+      </div>
+    </section>
+
+    <div class="split">
+      <section class="layer hot">
+        <h2>4A. Real-Time Operational Hot Path</h2>
+        <div class="cards">
+          <div class="card"><b>Immediate Alerting</b>Critical failures and thresholds</div>
+          <div class="card"><b>L1/L2 Current State</b>Operational health and current incidents</div>
+          <div class="card"><b>Streaming Detection</b>Lag, outage, failures, backlog</div>
+        </div>
+      </section>
+
+      <section class="layer bronze">
+        <h2>4B. Bronze – Durable Raw Observability</h2>
+        <div class="cards">
+          <div class="card"><b>S3 + Delta</b>Immutable, replayable telemetry</div>
+          <div class="card"><b>Source Fidelity</b>Raw payload + standard envelope</div>
+          <div class="card"><b>Tenant Hints</b>Domain/project/product metadata at ingress</div>
+          <div class="card"><b>Lifecycle</b>Hot → warm → cold / archive</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <section class="layer silver">
+      <h2>5. Silver – Canonical Observability Data Model</h2>
+      <div class="cards">
+        <div class="card"><b>Normalize</b>Common timestamp, schema and signal semantics</div>
+        <div class="card"><b>Tenant Resolve</b>Tenant, project, data product, environment</div>
+        <div class="card"><b>Entity Resolve</b>Native IDs → canonical entity IDs</div>
+        <div class="card"><b>Correlate</b>Trace ↔ pipeline ↔ dataset ↔ compute ↔ cost</div>
+        <div class="card"><b>Topology</b>Entity and relationship graph</div>
+        <div class="card"><b>State</b>Current + historical entity health</div>
+        <div class="card"><b>Quality</b>Telemetry completeness, lag, duplicates, mapping quality</div>
+      </div>
+    </section>
+
+    <div class="arrow">↓</div>
+
+    <section class="layer gold">
+      <h2>6. Gold – Federated Observability Products (High Level)</h2>
+      <div class="cards">
+        <div class="card"><b>Data Observability</b>Quality, freshness, SLA</div>
+        <div class="card"><b>Pipeline</b>Runs, dependencies, failures</div>
+        <div class="card"><b>Platform</b>Compute, storage, network, capacity</div>
+        <div class="card"><b>Services</b>Latency, errors, traces, dependencies</div>
+        <div class="card"><b>FinOps</b>Cost, utilization, allocation, anomaly</div>
+        <div class="card"><b>MLOps</b>Training, deployment, serving operations</div>
+        <div class="card"><b>Domain Gold</b>Sales / Risk / Manufacturing / other domain products</div>
+      </div>
+    </section>
+
+    <section class="layer tenant">
+      <h2>Cross-Cutting Multi-Tenancy & Governance</h2>
+      <div class="cards">
+        <div class="card"><b>Tenant Hierarchy</b>Enterprise → Domain → Tenant/Project → Data Product → Environment</div>
+        <div class="card"><b>Security</b>IAM + Unity Catalog + enterprise identity</div>
+        <div class="card"><b>Isolation</b>Shared logical, catalog/schema, storage-prefix or physical isolation</div>
+        <div class="card"><b>Retention</b>Signal + tier + environment + compliance + value</div>
+        <div class="card"><b>Criticality</b>T1 / T2 / T3 controls monitoring depth and retention</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="footer">Design intent: centralize standards, raw/canonical observability data and correlation; federate Gold observability products to domains.</div>
+</div>
+</body>
+</html>
